@@ -28,13 +28,6 @@ class _$ChargePointEventTearOff {
       radius,
     );
   }
-
-  GetPlaceByIdEvent getPlaceById(String xid, String apikey) {
-    return GetPlaceByIdEvent(
-      xid,
-      apikey,
-    );
-  }
 }
 
 /// @nodoc
@@ -42,14 +35,18 @@ const $ChargePointEvent = _$ChargePointEventTearOff();
 
 /// @nodoc
 mixin _$ChargePointEvent {
+  String get kinds => throw _privateConstructorUsedError;
+  String get format => throw _privateConstructorUsedError;
   String get apikey => throw _privateConstructorUsedError;
+  String get lat => throw _privateConstructorUsedError;
+  String get lon => throw _privateConstructorUsedError;
+  String get radius => throw _privateConstructorUsedError;
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String kinds, String format, String apikey,
             String lat, String lon, String radius)
         getPlacesByRadius,
-    required TResult Function(String xid, String apikey) getPlaceById,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -57,7 +54,6 @@ mixin _$ChargePointEvent {
     TResult Function(String kinds, String format, String apikey, String lat,
             String lon, String radius)?
         getPlacesByRadius,
-    TResult Function(String xid, String apikey)? getPlaceById,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -65,26 +61,22 @@ mixin _$ChargePointEvent {
     TResult Function(String kinds, String format, String apikey, String lat,
             String lon, String radius)?
         getPlacesByRadius,
-    TResult Function(String xid, String apikey)? getPlaceById,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(GetPlacesByRadiusEvent value) getPlacesByRadius,
-    required TResult Function(GetPlaceByIdEvent value) getPlaceById,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(GetPlacesByRadiusEvent value)? getPlacesByRadius,
-    TResult Function(GetPlaceByIdEvent value)? getPlaceById,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(GetPlacesByRadiusEvent value)? getPlacesByRadius,
-    TResult Function(GetPlaceByIdEvent value)? getPlaceById,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -99,7 +91,13 @@ abstract class $ChargePointEventCopyWith<$Res> {
   factory $ChargePointEventCopyWith(
           ChargePointEvent value, $Res Function(ChargePointEvent) then) =
       _$ChargePointEventCopyWithImpl<$Res>;
-  $Res call({String apikey});
+  $Res call(
+      {String kinds,
+      String format,
+      String apikey,
+      String lat,
+      String lon,
+      String radius});
 }
 
 /// @nodoc
@@ -113,12 +111,37 @@ class _$ChargePointEventCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object? kinds = freezed,
+    Object? format = freezed,
     Object? apikey = freezed,
+    Object? lat = freezed,
+    Object? lon = freezed,
+    Object? radius = freezed,
   }) {
     return _then(_value.copyWith(
+      kinds: kinds == freezed
+          ? _value.kinds
+          : kinds // ignore: cast_nullable_to_non_nullable
+              as String,
+      format: format == freezed
+          ? _value.format
+          : format // ignore: cast_nullable_to_non_nullable
+              as String,
       apikey: apikey == freezed
           ? _value.apikey
           : apikey // ignore: cast_nullable_to_non_nullable
+              as String,
+      lat: lat == freezed
+          ? _value.lat
+          : lat // ignore: cast_nullable_to_non_nullable
+              as String,
+      lon: lon == freezed
+          ? _value.lon
+          : lon // ignore: cast_nullable_to_non_nullable
+              as String,
+      radius: radius == freezed
+          ? _value.radius
+          : radius // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -254,7 +277,6 @@ class _$GetPlacesByRadiusEvent extends GetPlacesByRadiusEvent {
     required TResult Function(String kinds, String format, String apikey,
             String lat, String lon, String radius)
         getPlacesByRadius,
-    required TResult Function(String xid, String apikey) getPlaceById,
   }) {
     return getPlacesByRadius(kinds, format, apikey, lat, lon, radius);
   }
@@ -265,7 +287,6 @@ class _$GetPlacesByRadiusEvent extends GetPlacesByRadiusEvent {
     TResult Function(String kinds, String format, String apikey, String lat,
             String lon, String radius)?
         getPlacesByRadius,
-    TResult Function(String xid, String apikey)? getPlaceById,
   }) {
     return getPlacesByRadius?.call(kinds, format, apikey, lat, lon, radius);
   }
@@ -276,7 +297,6 @@ class _$GetPlacesByRadiusEvent extends GetPlacesByRadiusEvent {
     TResult Function(String kinds, String format, String apikey, String lat,
             String lon, String radius)?
         getPlacesByRadius,
-    TResult Function(String xid, String apikey)? getPlaceById,
     required TResult orElse(),
   }) {
     if (getPlacesByRadius != null) {
@@ -289,7 +309,6 @@ class _$GetPlacesByRadiusEvent extends GetPlacesByRadiusEvent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(GetPlacesByRadiusEvent value) getPlacesByRadius,
-    required TResult Function(GetPlaceByIdEvent value) getPlaceById,
   }) {
     return getPlacesByRadius(this);
   }
@@ -298,7 +317,6 @@ class _$GetPlacesByRadiusEvent extends GetPlacesByRadiusEvent {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(GetPlacesByRadiusEvent value)? getPlacesByRadius,
-    TResult Function(GetPlaceByIdEvent value)? getPlaceById,
   }) {
     return getPlacesByRadius?.call(this);
   }
@@ -307,7 +325,6 @@ class _$GetPlacesByRadiusEvent extends GetPlacesByRadiusEvent {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(GetPlacesByRadiusEvent value)? getPlacesByRadius,
-    TResult Function(GetPlaceByIdEvent value)? getPlaceById,
     required TResult orElse(),
   }) {
     if (getPlacesByRadius != null) {
@@ -327,173 +344,20 @@ abstract class GetPlacesByRadiusEvent extends ChargePointEvent {
       String radius) = _$GetPlacesByRadiusEvent;
   const GetPlacesByRadiusEvent._() : super._();
 
+  @override
   String get kinds => throw _privateConstructorUsedError;
+  @override
   String get format => throw _privateConstructorUsedError;
   @override
   String get apikey => throw _privateConstructorUsedError;
+  @override
   String get lat => throw _privateConstructorUsedError;
+  @override
   String get lon => throw _privateConstructorUsedError;
+  @override
   String get radius => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   $GetPlacesByRadiusEventCopyWith<GetPlacesByRadiusEvent> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $GetPlaceByIdEventCopyWith<$Res>
-    implements $ChargePointEventCopyWith<$Res> {
-  factory $GetPlaceByIdEventCopyWith(
-          GetPlaceByIdEvent value, $Res Function(GetPlaceByIdEvent) then) =
-      _$GetPlaceByIdEventCopyWithImpl<$Res>;
-  @override
-  $Res call({String xid, String apikey});
-}
-
-/// @nodoc
-class _$GetPlaceByIdEventCopyWithImpl<$Res>
-    extends _$ChargePointEventCopyWithImpl<$Res>
-    implements $GetPlaceByIdEventCopyWith<$Res> {
-  _$GetPlaceByIdEventCopyWithImpl(
-      GetPlaceByIdEvent _value, $Res Function(GetPlaceByIdEvent) _then)
-      : super(_value, (v) => _then(v as GetPlaceByIdEvent));
-
-  @override
-  GetPlaceByIdEvent get _value => super._value as GetPlaceByIdEvent;
-
-  @override
-  $Res call({
-    Object? xid = freezed,
-    Object? apikey = freezed,
-  }) {
-    return _then(GetPlaceByIdEvent(
-      xid == freezed
-          ? _value.xid
-          : xid // ignore: cast_nullable_to_non_nullable
-              as String,
-      apikey == freezed
-          ? _value.apikey
-          : apikey // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$GetPlaceByIdEvent extends GetPlaceByIdEvent {
-  const _$GetPlaceByIdEvent(this.xid, this.apikey) : super._();
-
-  @override
-  final String xid;
-  @override
-  final String apikey;
-
-  @override
-  String toString() {
-    return 'ChargePointEvent.getPlaceById(xid: $xid, apikey: $apikey)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is GetPlaceByIdEvent &&
-            (identical(other.xid, xid) ||
-                const DeepCollectionEquality().equals(other.xid, xid)) &&
-            (identical(other.apikey, apikey) ||
-                const DeepCollectionEquality().equals(other.apikey, apikey)));
-  }
-
-  @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(xid) ^
-      const DeepCollectionEquality().hash(apikey);
-
-  @JsonKey(ignore: true)
-  @override
-  $GetPlaceByIdEventCopyWith<GetPlaceByIdEvent> get copyWith =>
-      _$GetPlaceByIdEventCopyWithImpl<GetPlaceByIdEvent>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String kinds, String format, String apikey,
-            String lat, String lon, String radius)
-        getPlacesByRadius,
-    required TResult Function(String xid, String apikey) getPlaceById,
-  }) {
-    return getPlaceById(xid, apikey);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String kinds, String format, String apikey, String lat,
-            String lon, String radius)?
-        getPlacesByRadius,
-    TResult Function(String xid, String apikey)? getPlaceById,
-  }) {
-    return getPlaceById?.call(xid, apikey);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String kinds, String format, String apikey, String lat,
-            String lon, String radius)?
-        getPlacesByRadius,
-    TResult Function(String xid, String apikey)? getPlaceById,
-    required TResult orElse(),
-  }) {
-    if (getPlaceById != null) {
-      return getPlaceById(xid, apikey);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(GetPlacesByRadiusEvent value) getPlacesByRadius,
-    required TResult Function(GetPlaceByIdEvent value) getPlaceById,
-  }) {
-    return getPlaceById(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(GetPlacesByRadiusEvent value)? getPlacesByRadius,
-    TResult Function(GetPlaceByIdEvent value)? getPlaceById,
-  }) {
-    return getPlaceById?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(GetPlacesByRadiusEvent value)? getPlacesByRadius,
-    TResult Function(GetPlaceByIdEvent value)? getPlaceById,
-    required TResult orElse(),
-  }) {
-    if (getPlaceById != null) {
-      return getPlaceById(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class GetPlaceByIdEvent extends ChargePointEvent {
-  const factory GetPlaceByIdEvent(String xid, String apikey) =
-      _$GetPlaceByIdEvent;
-  const GetPlaceByIdEvent._() : super._();
-
-  String get xid => throw _privateConstructorUsedError;
-  @override
-  String get apikey => throw _privateConstructorUsedError;
-  @override
-  @JsonKey(ignore: true)
-  $GetPlaceByIdEventCopyWith<GetPlaceByIdEvent> get copyWith =>
       throw _privateConstructorUsedError;
 }

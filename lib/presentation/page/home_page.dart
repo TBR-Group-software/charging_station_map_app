@@ -1,21 +1,18 @@
 import 'dart:typed_data';
-import 'dart:ui' as ui;
 
-import 'package:clippy_flutter/clippy_flutter.dart';
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_config/flutter_config.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_api_app/backbone/constants.dart';
 import 'package:google_maps_api_app/backbone/dependency_injection.dart' as di;
 import 'package:google_maps_api_app/presentation/bloc/charge_point/bloc.dart';
+import 'package:google_maps_api_app/presentation/bloc/charge_point_address/bloc.dart';
 import 'package:google_maps_api_app/presentation/bloc/status.dart';
 import 'package:google_maps_api_app/presentation/page/map_utils.dart';
+import 'package:google_maps_api_app/presentation/widget/info_window_widget.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -24,6 +21,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final ChargePointBloc chargePointBloc = di.sl.get();
+  final ChargePointAddressBloc chargePointAddressBloc = di.sl.get();
   final CustomInfoWindowController _customInfoWindowController =
       CustomInfoWindowController();
 
@@ -41,7 +39,6 @@ class _HomePageState extends State<HomePage> {
   MapUtils mapUtils = MapUtils();
 
   Set<Marker> chargePointsSet = <Marker>{};
-
   String houseNumber = '';
   String road = '';
 
@@ -88,91 +85,71 @@ class _HomePageState extends State<HomePage> {
                     int i = 0;
                     state.chargePoints.forEach((dynamic element) {
                       final int index = i;
+                      final String xid = state.chargePoints[index].id;
+                      final String? name = state.chargePoints[index].name;
+                      final double lat = state.chargePoints[index].lat;
+                      final double lon = state.chargePoints[index].lon;
                       chargePointsSet.add(
                         Marker(
                           onTap: () {
-                            _customInfoWindowController.addInfoWindow!(
-                                Column(
-                                  children: [
-                                    Expanded(
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: Colors.blue,
-                                          borderRadius:
-                                              BorderRadius.circular(4),
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Icon(
-                                                Icons.account_circle,
-                                                color: Colors.white,
-                                                size: 30,
-                                              ),
-                                              SizedBox(
-                                                width: 8.0,
-                                              ),
-                                              Text("I am here",
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .headline6)
-                                            ],
-                                          ),
-                                        ),
-                                        width: double.infinity,
-                                        height: double.infinity,
-                                      ),
-                                    ),
-                                    Triangle.isosceles(
-                                      edge: Edge.BOTTOM,
-                                      child: Container(
-                                        color: Colors.blue,
-                                        width: 20.0,
-                                        height: 10.0,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                LatLng(
-                                  state.chargePoints[index].lat,
-                                  state.chargePoints[index].lon,
-                                ));
-                            chargePointBloc.add(
-                              ChargePointEvent.getPlaceById(
-                                state.chargePoints[index].id,
+                            chargePointAddressBloc.add(
+                              ChargePointAddressEvent.getPlaceById(
+                                xid,
                                 openTripApiKey!,
                               ),
                             );
+                            chargePointAddressBloc.stream
+                                .listen((ChargePointAddressState state) {
+                              if (state.status == BlocStatus.Loading) {
+                                _customInfoWindowController.addInfoWindow!(
+                                    const InfoWindowWidget(
+                                      title: '...',
+                                      label: '...',
+                                    ),
+                                    LatLng(
+                                      lat,
+                                      lon,
+                                    ));
+                              } else if (state.status == BlocStatus.Loaded) {
+                                _customInfoWindowController.addInfoWindow!(
+                                    InfoWindowWidget(
+                                      title: name == '' || name == null
+                                          ? 'Unknown'
+                                          : name,
+                                      label: (state.chargePointAddress
+                                                      .houseNumber ==
+                                                  null
+                                              ? '??'
+                                              : state.chargePointAddress
+                                                  .houseNumber!) +
+                                          ' ' +
+                                          (state.chargePointAddress.road ==
+                                                      null ||
+                                                  state.chargePointAddress
+                                                          .road ==
+                                                      ''
+                                              ? 'unknown street'
+                                              : state.chargePointAddress.road!),
+                                    ),
+                                    LatLng(
+                                      lat,
+                                      lon,
+                                    ));
+                              } else {
+                                Text('${state.error}');
+                              }
+                            });
                           },
                           markerId: MarkerId('$index'),
                           position: LatLng(
                             state.chargePoints[index].lat,
                             state.chargePoints[index].lon,
                           ),
-                          // infoWindow: InfoWindow(
-                          //   title: state.chargePoints[index].name == '' ||
-                          //           state.chargePoints[index].name == null
-                          //       ? 'Unknown'
-                          //       : state.chargePoints[index].name,
-                          //   snippet: (state.chargePointAddress.houseNumber ==
-                          //               null
-                          //           ? ''
-                          //           : state.chargePointAddress.houseNumber!) +
-                          //       ' ' +
-                          //       (state.chargePointAddress.road == null ||
-                          //               state.chargePointAddress.road == ''
-                          //           ? 'unknown street'
-                          //           : state.chargePointAddress.road!),
-                          // ),
                           icon: mapMarker!,
                         ),
                       );
                       i++;
                     });
-
                     return Stack(
                       children: <Widget>[
                         GoogleMap(
@@ -190,12 +167,66 @@ class _HomePageState extends State<HomePage> {
                         ),
                         CustomInfoWindow(
                           controller: _customInfoWindowController,
-                          height: 75,
-                          width: 150,
-                          offset: 50,
+                          width: 295.w,
+                          height: 75.h,
+                          offset: 35.h,
                         ),
                       ],
                     );
+                    // return Stack(
+                    //   children: <Widget>[
+                    //     Container(
+                    //       padding: EdgeInsets.only(top: 53.h),
+                    //       decoration: const BoxDecoration(
+                    //         color: Palette.darkPurple,
+                    //       ),
+                    //       child: Column(
+                    //         children: <Widget>[
+                    //           Text(
+                    //             'Charging Station NY',
+                    //             style: TextStyles()
+                    //                 .mainTextStyle
+                    //                 .copyWith(fontSize: 18.sp),
+                    //           ),
+                    //           SizedBox(height: 34.h),
+                    //           Flexible(
+                    //             child: SizedBox(
+                    //               height: 706.h,
+                    //               child: ClipRRect(
+                    //                 borderRadius: BorderRadius.only(
+                    //                   topLeft: Radius.circular(25.r),
+                    //                   topRight: Radius.circular(25.r),
+                    //                 ),
+                    //                 child: GoogleMap(
+                    //                   onTap: (LatLng position) {
+                    //                     _customInfoWindowController
+                    //                         .hideInfoWindow!();
+                    //                   },
+                    //                   onCameraMove: (CameraPosition position) {
+                    //                     _customInfoWindowController
+                    //                         .onCameraMove!();
+                    //                   },
+                    //                   myLocationEnabled: false,
+                    //                   myLocationButtonEnabled: false,
+                    //                   initialCameraPosition:
+                    //                       newYorkCameraPosition,
+                    //                   onMapCreated: _onMapCreated,
+                    //                   markers: chargePointsSet,
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //           ),
+                    //         ],
+                    //       ),
+                    //     ),
+                    //     CustomInfoWindow(
+                    //       controller: _customInfoWindowController,
+                    //       width: 295.w,
+                    //       height: 75.h,
+                    //       offset: 35.h,
+                    //     ),
+                    //   ],
+                    // );
                   } else {
                     return Center(
                       child: Text('${state.error}'),

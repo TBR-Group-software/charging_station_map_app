@@ -1,14 +1,13 @@
 import 'package:bloc/bloc.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:google_maps_api_app/domain/entity/charge_point_address.dart';
 import 'package:google_maps_api_app/domain/usecase/get_place_by_id.dart';
 import 'package:google_maps_api_app/presentation/bloc/state.dart';
 import 'package:google_maps_api_app/presentation/bloc/status.dart';
-import 'package:meta/meta.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'bloc.freezed.dart';
 part 'event.dart';
 part 'state.dart';
-part 'bloc.freezed.dart';
 
 class ChargePointAddressBloc
     extends Bloc<ChargePointAddressEvent, ChargePointAddressState> {

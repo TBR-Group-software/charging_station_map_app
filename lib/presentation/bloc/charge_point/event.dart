@@ -13,9 +13,4 @@ abstract class ChargePointEvent with _$ChargePointEvent {
     String lon,
     String radius,
   ) = GetPlacesByRadiusEvent;
-
-  const factory ChargePointEvent.getPlaceById(
-    String xid,
-    String apikey,
-  ) = GetPlaceByIdEvent;
 }

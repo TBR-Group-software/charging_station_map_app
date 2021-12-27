@@ -14,6 +14,7 @@ import 'package:google_maps_api_app/domain/service/charge_point.dart';
 import 'package:google_maps_api_app/domain/usecase/get_place_by_id.dart';
 import 'package:google_maps_api_app/domain/usecase/get_places_by_radius.dart';
 import 'package:google_maps_api_app/presentation/bloc/charge_point/bloc.dart';
+import 'package:google_maps_api_app/presentation/bloc/charge_point_address/bloc.dart';
 
 final GetIt sl = GetIt.instance;
 
@@ -47,6 +48,9 @@ void init() {
   sl.registerLazySingleton<GetPlaceByIdUseCase>(
       () => RestGetPlaceByIdUseCase(sl.get()));
   //Bloc
-  sl.registerLazySingleton<ChargePointBloc>(
-      () => ChargePointBloc(sl.get(), sl.get()));
+  sl.registerLazySingleton<ChargePointBloc>(() => ChargePointBloc(
+        sl.get(),
+      ));
+  sl.registerLazySingleton<ChargePointAddressBloc>(
+      () => ChargePointAddressBloc(sl.get()));
 }
