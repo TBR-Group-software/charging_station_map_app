@@ -14,4 +14,4 @@ const CameraPosition newYorkCameraPosition = CameraPosition(
   zoom: 11,
 );
 
-String? openTripApiKey = FlutterConfig.get('OPEN_TRIP_MAP_API_KEY').toString();
+String? openTripApiKey = '5ae2e3f221c38a28845f05b653fc387a8dba9d23fab8d6eb34551625';

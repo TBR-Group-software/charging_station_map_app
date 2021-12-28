@@ -27,6 +27,7 @@ class _MyAppState extends State<MyApp> {
       builder: () => MaterialApp(
         debugShowCheckedModeBanner: false,
         home: HomePage(),
+        title: 'NYC Charge',
       ),
       designSize: screenSize,
     );
