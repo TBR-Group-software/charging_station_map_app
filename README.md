@@ -45,6 +45,17 @@ Go to project root and execute the following command in console to get the requi
 ```
 flutter pub get 
 ```
+**Step 3:**
+
+To launch the application add your Google Maps API and Open Trip API keys in the .env file instead of YOUR_GOOGLE_MAPS_API_KEY and OPEN_TRIP_MAP_API_KEY strings.
+
+```
+GOOGLE_MAPS_API_KEY=YOUR_API_KEY
+OPEN_TRIP_MAP_API_KEY=YOUR_API_KEY
+```
+
+.env file is placed in the root directory of the project
+
 
 ## License
 This project is licensed under the GNU GPL v3 License - see the [LICENSE.md](https://github.com/TBR-Group-software/charging_station_map_app/blob/main/LICENSE.md) file for details.
