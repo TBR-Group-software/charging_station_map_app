@@ -4,7 +4,7 @@
 
 
 ## About the project
-The purpose of this project is to develop mobile application which allows find the nearby charging stations on the map in New York City using Google Maps API with beautiful neon UI.
+The purpose of this project is to develop the mobile application which allows finding the nearby charging stations on the map in New York City using Google Maps API with beautiful neon UI.
 <p float="center", align="justify ">
   <img src="https://github.com/TBR-Group-software/charging_station_map_app/blob/main/assets/images/charge_gif1.gif?raw=true" width="250" />
      
