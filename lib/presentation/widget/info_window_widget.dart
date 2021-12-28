@@ -6,10 +6,13 @@ import 'package:google_maps_api_app/theme/text_styles.dart';
 
 class InfoWindowWidget extends StatelessWidget {
   final String? title;
-  final String label;
+  final String? houseNumber;
+  final String? road;
+
   const InfoWindowWidget({
     required this.title,
-    required this.label,
+    required this.houseNumber,
+    required this.road,
   });
 
   @override
@@ -18,6 +21,8 @@ class InfoWindowWidget extends StatelessWidget {
       children: <Widget>[
         Flexible(
           child: Container(
+            width: double.infinity,
+            height: double.infinity,
             decoration: BoxDecoration(
                 gradient: const LinearGradient(
                   begin: Alignment.topCenter,
@@ -32,8 +37,6 @@ class InfoWindowWidget extends StatelessWidget {
                     blurRadius: 40.r,
                   ),
                 ]),
-            width: double.infinity,
-            height: double.infinity,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -48,11 +51,15 @@ class InfoWindowWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        title!,
+                        title == '' || title == null ? 'Unknown' : title!,
                         style: TextStyles().mainTextStyle,
                       ),
                       Text(
-                        label,
+                        (houseNumber == null ? '??' : houseNumber!) +
+                            ' ' +
+                            (road == null || road == ''
+                                ? 'unknown street'
+                                : road!),
                         style: TextStyles().secondaryTextStyle,
                       ),
                     ],

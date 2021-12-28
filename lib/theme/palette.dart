@@ -2,7 +2,9 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 
 class Palette {
-  static const Color white = Colors.white;
+  static const Color white = ui.Color.fromARGB(255, 255, 255, 255);
+
+  static const Color darkGray = ui.Color.fromARGB(255, 33, 33, 33);
 
   static const Color ultraLightPurple = ui.Color.fromARGB(255, 255, 110, 248);
 

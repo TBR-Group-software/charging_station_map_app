@@ -36,10 +36,19 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-
-  # To add assets to your application, add an assets section, like this:
   assets:
     - assets/map/
+    - assets/images/
+flutter_native_splash:
+  color: "#212121"
+  image: "assets/images/splash.png"
+
+flutter_icons:
+  image_path: "assets/images/favicon.png"
+  android: true
+  ios: true
+  # To add assets to your application, add an assets section, like this:
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

@@ -10,8 +10,9 @@ import 'package:google_maps_api_app/backbone/dependency_injection.dart' as di;
 import 'package:google_maps_api_app/presentation/bloc/charge_point/bloc.dart';
 import 'package:google_maps_api_app/presentation/bloc/charge_point_address/bloc.dart';
 import 'package:google_maps_api_app/presentation/bloc/status.dart';
-import 'package:google_maps_api_app/presentation/page/map_utils.dart';
 import 'package:google_maps_api_app/presentation/widget/info_window_widget.dart';
+import 'package:google_maps_api_app/theme/palette.dart';
+import 'package:google_maps_api_app/utils/map_utils.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class HomePage extends StatefulWidget {
@@ -43,7 +44,7 @@ class _HomePageState extends State<HomePage> {
   String road = '';
 
   void _onMapCreated(GoogleMapController controller) {
-    controller.setMapStyle(MapUtils.mapStyle);
+    controller.setMapStyle(mapUtils.getMapStyle());
     _customInfoWindowController.googleMapController = controller;
   }
 
@@ -69,6 +70,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Palette.darkGray,
       floatingActionButton: const SizedBox(),
       body: Center(
         child: Column(
@@ -78,8 +80,13 @@ class _HomePageState extends State<HomePage> {
                 bloc: chargePointBloc,
                 builder: (_, ChargePointState state) {
                   if (state.status == BlocStatus.Loading) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
+                    return const Scaffold(
+                      backgroundColor: Palette.darkGray,
+                      body: Center(
+                        child: CircularProgressIndicator(
+                          color: Palette.darkPurple,
+                        ),
+                      ),
                     );
                   } else if (state.status == BlocStatus.Loaded) {
                     int i = 0;
@@ -104,32 +111,17 @@ class _HomePageState extends State<HomePage> {
                                 _customInfoWindowController.addInfoWindow!(
                                     const InfoWindowWidget(
                                       title: '...',
-                                      label: '...',
+                                      houseNumber: '...',
+                                      road: '',
                                     ),
-                                    LatLng(
-                                      lat,
-                                      lon,
-                                    ));
+                                    LatLng(lat, lon));
                               } else if (state.status == BlocStatus.Loaded) {
                                 _customInfoWindowController.addInfoWindow!(
                                     InfoWindowWidget(
-                                      title: name == '' || name == null
-                                          ? 'Unknown'
-                                          : name,
-                                      label: (state.chargePointAddress
-                                                      .houseNumber ==
-                                                  null
-                                              ? '??'
-                                              : state.chargePointAddress
-                                                  .houseNumber!) +
-                                          ' ' +
-                                          (state.chargePointAddress.road ==
-                                                      null ||
-                                                  state.chargePointAddress
-                                                          .road ==
-                                                      ''
-                                              ? 'unknown street'
-                                              : state.chargePointAddress.road!),
+                                      title: name,
+                                      houseNumber:
+                                          state.chargePointAddress.houseNumber,
+                                      road: state.chargePointAddress.road,
                                     ),
                                     LatLng(
                                       lat,
@@ -173,60 +165,6 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ],
                     );
-                    // return Stack(
-                    //   children: <Widget>[
-                    //     Container(
-                    //       padding: EdgeInsets.only(top: 53.h),
-                    //       decoration: const BoxDecoration(
-                    //         color: Palette.darkPurple,
-                    //       ),
-                    //       child: Column(
-                    //         children: <Widget>[
-                    //           Text(
-                    //             'Charging Station NY',
-                    //             style: TextStyles()
-                    //                 .mainTextStyle
-                    //                 .copyWith(fontSize: 18.sp),
-                    //           ),
-                    //           SizedBox(height: 34.h),
-                    //           Flexible(
-                    //             child: SizedBox(
-                    //               height: 706.h,
-                    //               child: ClipRRect(
-                    //                 borderRadius: BorderRadius.only(
-                    //                   topLeft: Radius.circular(25.r),
-                    //                   topRight: Radius.circular(25.r),
-                    //                 ),
-                    //                 child: GoogleMap(
-                    //                   onTap: (LatLng position) {
-                    //                     _customInfoWindowController
-                    //                         .hideInfoWindow!();
-                    //                   },
-                    //                   onCameraMove: (CameraPosition position) {
-                    //                     _customInfoWindowController
-                    //                         .onCameraMove!();
-                    //                   },
-                    //                   myLocationEnabled: false,
-                    //                   myLocationButtonEnabled: false,
-                    //                   initialCameraPosition:
-                    //                       newYorkCameraPosition,
-                    //                   onMapCreated: _onMapCreated,
-                    //                   markers: chargePointsSet,
-                    //                 ),
-                    //               ),
-                    //             ),
-                    //           ),
-                    //         ],
-                    //       ),
-                    //     ),
-                    //     CustomInfoWindow(
-                    //       controller: _customInfoWindowController,
-                    //       width: 295.w,
-                    //       height: 75.h,
-                    //       offset: 35.h,
-                    //     ),
-                    //   ],
-                    // );
                   } else {
                     return Center(
                       child: Text('${state.error}'),
